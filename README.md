@@ -6,7 +6,7 @@ also it can make the given operation graph and convert temperature different sca
     <img src=".\screenshot\6 temperature.PNG" width="300" higth="400" >
 </p>
 
-## simple mode
+## Simple mode
 when you start the application this mode is selected by default. it can calculate operations like:
 * multiplication
 * division
