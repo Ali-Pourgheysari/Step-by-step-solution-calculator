@@ -3,8 +3,6 @@ A step by step calculator that calculates the given operation step by step. It c
 also it can make the given operation graph and convert temperature different scales.
 <p align="center">
     <img src=".\screenshot\2 file.png" width="300" higth="400" >
-</p>
-<p align="center">
     <img src=".\screenshot\6 temperature.PNG" width="300" higth="400" >
 </p>
 
@@ -16,7 +14,7 @@ when you start the application this mode is selected by default. it can calculat
 * subtraction
 
 <p align="center">
-    <img src=".\screenshot\1 main form.PNG" width="600" higth="400" >
+    <img src=".\screenshot\1 main form.PNG" width="500" higth="300" >
 </p>
 
 ## Scientific mode
@@ -31,10 +29,10 @@ when you click on the scientific mode button it will show the scientific mode. i
 * parentheses
 
 <p align="center">
-    <img src=".\screenshot\3 enter the operation.PNG" width="900" higth="600" >
+    <img src=".\screenshot\3 enter the operation.PNG" width="700" higth="500" >
 </p>
 <p align="center">
-    <img src=".\screenshot\4 step by step solution.PNG" width="900" higth="600" >
+    <img src=".\screenshot\4 step by step solution.PNG" width="700" higth="500" >
 </p>
 
 ## Graph mode
