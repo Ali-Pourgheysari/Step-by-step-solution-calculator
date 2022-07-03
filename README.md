@@ -43,6 +43,9 @@ After you calculate the operation by choosing the graph mode it will show the gr
     <img src=".\screenshot\5 graph.PNG" width="300" higth="400" >
 </p>
 <div dir='rtl' align="justify">
+
+## Requirements
+* Visual studio
  
 # توضیحات این فاز
  
