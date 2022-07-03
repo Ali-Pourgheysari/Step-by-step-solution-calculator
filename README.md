@@ -1,6 +1,51 @@
+# Calculator 
+A step by step calculator that calculates the given operation step by step. It can do complex operation than just addition and subtraction.
+also it can make the given operation graph and convert temperature different scales.
+<p align="center">
+    <img src=".\screenshot\2 file.png" width="300" higth="400" >
+</p>
+<p align="center">
+    <img src=".\screenshot\6 temperature.PNG" width="300" higth="400" >
+</p>
+
+## simple mode
+when you start the application this mode is selected by default. it can calculate operations like:
+* multiplication
+* division
+* addition
+* subtraction
+
+<p align="center">
+    <img src=".\screenshot\1 main form.PNG" width="600" higth="400" >
+</p>
+
+## Scientific mode
+when you click on the scientific mode button it will show the scientific mode. it can calculate operations that include:
+* square root
+* square
+* Sinus
+* Cosinus
+* Tangent
+* logarithm
+* power
+* parentheses
+
+<p align="center">
+    <img src=".\screenshot\3 enter the operation.PNG" width="900" higth="600" >
+</p>
+<p align="center">
+    <img src=".\screenshot\4 step by step solution.PNG" width="900" higth="600" >
+</p>
+
+## Graph mode
+After you calculate the operation by choosing the graph mode it will show the graph of the operation like this:
+
+<p align="center">
+    <img src=".\screenshot\5 graph.PNG" width="300" higth="400" >
+</p>
 <div dir='rtl' align="justify">
  
- #  مینی پروژه سوم
+# توضیحات این فاز
  
 در این پروژه قرار است عملکرد یک ماشین حساب را شبیه سازی کنیم. عملیات جمع (+)، تفریق (-)، ضرب (*)، تقسیم (/)، توان (^) ، را باید پیاده سازی کنید. 
 دقت داشته باشید که اعداد ورودی میتوانند از نوع اعشاری نیز باشد و برنامه شما باید "." (ممیز) را پشتیبانی کند.
