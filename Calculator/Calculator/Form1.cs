@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Calculator.GFG;
 
 namespace Calculator
 {
     public partial class Form1 : Form
     {
         bool enter_value = false;
+        string treeString = "";
 
         float iCelsius, iFahrenheit, iKevin;
         char iOperation;
@@ -21,7 +19,6 @@ namespace Calculator
         bool containdot = false;
         bool arithmeticafterdot = false;
 
-        short maxstack = 0;
         LinkedStack Stack = new LinkedStack();
 
         public Form1()
@@ -33,8 +30,60 @@ namespace Calculator
         {
             txtStep.Text = "";
             txtDisplay.Text = "0";
-            lblShowOp.Text = "";
             isnumber = false;
+        }
+
+        void iterate(nptr root, TreeNode node)
+        {
+            TreeNode leftnode = new TreeNode();
+            TreeNode rightnode = new TreeNode();
+            if (root == null)
+            {
+                if (root == null)
+                {
+                    return;
+                }
+                else
+                {
+                    rightnode = new TreeNode(root.data.ToString());
+                }
+                leftnode = new TreeNode(null);
+            }
+            else
+            {
+                if (root == null)
+                {
+                    rightnode = new TreeNode(null);
+                }
+                else
+                {
+                    rightnode = new TreeNode(root.data.ToString());
+                }
+                leftnode = new TreeNode(root.data.ToString());
+            }
+            TreeNode treenode = new TreeNode(root.data);
+            iterate(root.left, treenode);
+            node.Nodes.Add(treenode);
+            iterate(root.right, treenode);
+        }
+
+        private void graphToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Width = 379;
+            txtDisplay.Width = 286;
+            flowLayoutPanel2.Visible = false;
+            groupBox2.Visible = false;
+            tree.Location = new Point(12, 36);
+            flowLayoutPanel1.Visible = false;
+            tree.Visible = true;
+            groupBox1.Visible = false;
+
+            treeView1.Nodes.Clear();
+            nptr root = build(treeString);
+            TreeNode rootnode = new TreeNode("TREE");
+            iterate(root, rootnode);
+            treeView1.Nodes.Add(rootnode);
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -45,6 +94,8 @@ namespace Calculator
             flowLayoutPanel2.Visible = false;
             groupBox2.Visible = true;
             groupBox2.Location = new Point(304, 35);
+            tree.Visible = false;
+
         }
 
         private void standardToolStripMenuItem_Click(object sender, EventArgs e)
@@ -58,6 +109,8 @@ namespace Calculator
             groupBox2.Visible = true;
             groupBox2.Location = new Point(304, 35);
             groupBox1.Visible = false;
+            tree.Visible = false;
+
         }
 
         private void scientificToolStripMenuItem_Click(object sender, EventArgs e)
@@ -71,6 +124,8 @@ namespace Calculator
             groupBox2.Visible = true;
             groupBox2.Location = new Point(466, 36);
             groupBox1.Visible = false;
+            tree.Visible = false;
+
         }
 
         private void temperatureToolStripMenuItem_Click(object sender, EventArgs e)
@@ -81,6 +136,7 @@ namespace Calculator
             flowLayoutPanel2.Visible = false;
             groupBox1.Location = new Point(12, 35);
             groupBox2.Visible = false;
+            tree.Visible = false;
             groupBox1.Visible = true;
         }
 
@@ -92,29 +148,33 @@ namespace Calculator
             }
             enter_value = false;
             Button num = (Button)sender;
-            if (num.Text == ".")
+            if (!txtDisplay.Text.EndsWith(")"))
             {
-                if (!containdot)
+                if (num.Text == ".")
                 {
-                    txtDisplay.Text = txtDisplay.Text + num.Text;
-                    containdot = true;
+                    if (!containdot)
+                    {
+                        txtDisplay.Text = txtDisplay.Text + num.Text;
+                        containdot = true;
+                    }
                 }
-            }
-            else
-            {
-                arithmeticafterdot = true;
-                txtDisplay.Text = txtDisplay.Text + num.Text;
+                else
+                {
+                    arithmeticafterdot = true;
+                    txtDisplay.Text = txtDisplay.Text + num.Text;
+                }
+                isnumber = true;
             }
 
-            isnumber = true;
         }
 
         private void button_Click_1(object sender, EventArgs e)
         {
             txtDisplay.Text = "0";
             txtStep.Text = "";
-            lblShowOp.Text = "";
             isnumber = false;
+            containdot = false;
+
         }
 
         private void buttonback_Click(object sender, EventArgs e)
@@ -126,6 +186,10 @@ namespace Calculator
             if (txtDisplay.Text[txtDisplay.Text.Length - 1] == ')')
             {
                 Stack.push('(');
+            }
+            if (txtDisplay.Text[txtDisplay.Text.Length - 1] == '(')
+            {
+                Stack.pop();
             }
             if (txtDisplay.Text.Length > 0)
             {
@@ -176,109 +240,41 @@ namespace Calculator
             }
         }
 
-        int prec(char c)
-        {
-            if (c == '^')
-                return 3;
-            else if (c == '÷' || c == '×')
-                return 2;
-            else if (c == '+' || c == '-')
-                return 1;
-            else
-                return -1;
-        }
-
-        public string infixToPostfix(string s)
-        {
-
-            LinkedStack st = new LinkedStack() ;
-            string result = "";
-
-            for (int i = 0; i < s.Length; i++)
-            {
-                char c = s[i];
-
-                if (char.IsLetterOrDigit(c))
-                    result += $"{c}";
-
-                else if (c == '(')
-                    st.push('(');
-
-                else if (c == ')')
-                {
-                    while (st.top() != '(')
-                    {
-                        result += st.top();
-                        st.pop();
-                    }
-                    st.pop();
-                }
-
-                else
-                {
-                    while (!st.isEmpty() && prec(s[i]) <= prec(st.top()))
-                    {
-                        result += st.top();
-                        st.pop();
-                    }
-                    st.push(c);
-                }
-            }
-
-            while (!st.isEmpty())
-            {
-                result += st.top();
-                st.pop();
-            }
-
-            return result;
-        }
-
         private void Print(doublyLinkedList<string> list)
         {
-            //doublyLinkedList<string>.node<string> node1 = list.gethead();
-            //doublyLinkedList<string>.node<string> node2 = list.gettail();
-            //while (node1.getNext() != node2.getprev() && node1.getData() == "(" && node2.getData() == ")")
-            //{
-            //    node1 = node1.getNext();
-            //    node2 = node2.getprev();
-            //}
-            //if (node1 == node2)
-            //{
-            //    txtStep.Text += "\n=";
-            //    txtStep.Text += node1.getData();
-            //    return;
-            //}
             doublyLinkedList<string>.node<string> node = list.gethead().getNext();
-            txtStep.Text += "\n=";
+            string dashnequal = "\n=";
+            string printform = "";
+            //o(n) onced counted
             while (node != list.gettail())
             {
-                txtStep.Text += node.getData();
+                printform += node.getData();
                 node = node.getNext();
+            }
+
+            string lastline = txtStep.Text.Split('=').Last();
+            if (lastline != printform)
+            {
+                dashnequal += printform;
+                txtStep.Text += dashnequal;
             }
         }
 
-        private void StepByStepSoution()
+
+        private void StepByStepSoution(string result)
         {
-
-            //string result = infixToPostfix(txtStep.Text);
-
-            //string finalresult = PostfixToInfix(result);
-            //int s = 10;
-            //s++;
-
-
+            if (txtStep.Text == "Syntax Error")
+            {
+                return;
+            }
 
             bool allowtoprint = false;
             doublyLinkedList<string> operatelist = new doublyLinkedList<string>();
-            string result = "(" + txtStep.Text + ")";
+            //o(n)
             for (int i = 0; i < result.Length; i++)
             {
-                if (result[i] == '(')
-                {
-                    maxstack++;
-                }
-                if (!char.IsNumber(result[i]) || (char.IsNumber(result[i]) && !char.IsNumber(result[i - 1])))
+                if ((!char.IsNumber(result[i]) && result[i] != '.') || (char.IsNumber(result[i]) && (result[i - 1] == '+' || result[i - 1] == '-'
+                    || result[i - 1] == '^' || result[i - 1] == '÷' || result[i - 1] == '×' || result[i - 1] == '(' || result[i - 1] == ')')))
                 {
                     operatelist.AddLast(result[i].ToString());
                 }
@@ -291,419 +287,244 @@ namespace Calculator
             doublyLinkedList<string>.node<string> node = operatelist.gettail();
             doublyLinkedList<string>.node<string> head = operatelist.gethead();
             doublyLinkedList<string>.node<string> tail = operatelist.gettail();
-            for (int i = 0; i < maxstack; i++)
+            bool isException = false;
+            //o(n)
+            while (operatelist.gethead() != operatelist.gettail())
             {
-                while (node.getData() != "(")
+                try
                 {
-                    node = node.getprev();
-                }
-                head = node;
-                while (node.getData() != ")")
-                {
-                    node = node.getNext();
-                }
-                tail = node;
-
-                node = head.getNext();
-                while (node != tail)
-                {
-                    if (node.getData() == "+")
+                    if (node.getData() == null)
                     {
-                        node.getNext().SetData($"{node.getNext().getData()}");
-                        node = operatelist.Deletenode(node);
+                        throw new Exception();
                     }
-                    else if (node.getData() == "-")
+                    while (node.getData() != "(")
                     {
-                        node.getNext().SetData((Convert.ToDouble(node.getNext().getData()) * (-1)).ToString());
-                        node = operatelist.Deletenode(node);
+                        node = node.getprev();
                     }
-                    node = node.getNext();
-                }
-                node = head;
-                if (head == operatelist.gethead() && tail == operatelist.gettail() && operatelist.gethead() == operatelist.gettail())
-                {
-                    Print(operatelist);
-                    break;
-                }
-                if (head.getNext() == tail.getprev())
-                {
-
-                    if (tail.getNext() != null && tail.getNext().getData() == "^")
+                    head = node;
+                    while (node.getData() != ")")
                     {
-                        doublyLinkedList<string>.node<string> temp = tail.getNext();
-                        if (temp.getNext().getData() == "(")
+                        node = node.getNext();
+                    }
+                    tail = node;
+                    node = head;
+                    //o(n)
+                    while (node.getNext() != tail)
+                    {
+                        node = node.getNext();
+                        switch (node.getData())
                         {
-                            operatelist.AddBetweenNeg(head.getNext(), (Math.Pow(Convert.ToDouble(head.getNext().getData()), Convert.ToDouble(temp.getNext().getNext().getData())).ToString()));
+                            case "^":
+                                operatelist.AddBetween(node.getprev(), (Math.Pow(Convert.ToDouble(node.getprev().getData()), Convert.ToDouble(node.getNext().getData())).ToString()));
+                                allowtoprint = true;
+                                break;
+
                         }
-                        else
-                        {
-                            operatelist.Deletenode(temp);
-                            operatelist.AddBetweenmid(head, (Math.Pow(Convert.ToDouble(head.getNext().getData()), Convert.ToDouble(tail.getNext().getData())).ToString()));
-                        }
+                    }
+                    //o(n)
+                    if (allowtoprint)
+                    {
                         Print(operatelist);
+                        allowtoprint = false;
+                    }
+                    node = head.getNext();
+                    //o(n)
+                    // odd or even power
+                    while (node != tail)
+                    {
+                        if (node.getData() == "+")
+                        {
+                            if (Convert.ToDouble(node.getNext().getData()) >= 0)
+                            {
+                                node.getNext().SetData($"+{node.getNext().getData()}");
+                                node = operatelist.Deletenode(node);
+                            }
+                            else if (Convert.ToDouble(node.getNext().getData()) < 0)
+                            {
+                                node = operatelist.Deletenode(node);
+                            }
+                        }
+                        else if (node.getData() == "-")
+                        {
+                            if (Convert.ToDouble(node.getNext().getData()) >= 0)
+                            {
+                                node.getNext().SetData((Convert.ToDouble(node.getNext().getData()) * (-1)).ToString());
+                                node = operatelist.Deletenode(node);
+                            }
+                            else if (Convert.ToDouble(node.getNext().getData()) < 0)
+                            {
+                                node.getNext().SetData((Convert.ToDouble(node.getNext().getData()) * (-1)).ToString());
+                                node.getNext().SetData($"+{node.getNext().getData()}");
+                                node = operatelist.Deletenode(node);
+                            }
+                        }
+                        node = node.getNext();
+                    }
+                    node = head;
+                    if (head == operatelist.gethead() && tail == operatelist.gettail() && operatelist.gethead() == operatelist.gettail())
+                    {
+                        Print(operatelist);
+                        break;
+                    }
+                    if (head.getNext() == tail.getprev())
+                    {
+
+                        if (tail.getNext() != null && tail.getNext().getData() == "^")
+                        {
+                            doublyLinkedList<string>.node<string> temp = tail.getNext();
+                            if (temp.getNext().getData() == "(")
+                            {
+                                operatelist.AddBetweenNeg(head.getNext(), (Math.Pow(Convert.ToDouble(head.getNext().getData()), Convert.ToDouble(temp.getNext().getNext().getData())).ToString()));
+                                allowtoprint = true;
+                            }
+                            else
+                            {
+                                operatelist.Deletenode(temp);
+                                operatelist.AddBetweenmid(head, (Math.Pow(Convert.ToDouble(head.getNext().getData()), Convert.ToDouble(tail.getNext().getData())).ToString()));
+                                allowtoprint = true;
+                            }
+                            Print(operatelist);
+                            continue;
+                        }
+                        head.SetData(head.getNext().getData());
+                        operatelist.Deletenode(head.getNext());
+                        operatelist.Deletenode(head.getNext());
+                        tail = head.getNext();
                         continue;
                     }
-                    head.SetData(head.getNext().getData());
-                    operatelist.Deletenode(head.getNext());
-                    operatelist.Deletenode(head.getNext());
-                    tail = head.getNext();
-                    //operatelist.AddBetween(node.getprev(), node.getNext().getData());
-                    continue;
-                }
-                while (node.getNext() != tail)
-                {
-                    node = node.getNext();
-                    switch (node.getData())
+
+                    node = head;
+                    //o(n)
+                    while (node.getNext() != tail)
                     {
-                        case "^":
-                            operatelist.AddBetween(node.getprev(), (Math.Pow(Convert.ToDouble(node.getprev().getData()), Convert.ToDouble(node.getNext().getData())).ToString()));
-                            allowtoprint = true;
-                            break;
+                        node = node.getNext();
+                        try
+                        {
+                            if (Convert.ToDouble(node.getData()) >= 0 && !node.getData().StartsWith("+"))
+                            {
+                                node.SetData($"+{Convert.ToDouble(node.getData())}");
+                            }
+                        }
+                        catch (Exception e)
+                        {
+
+                            continue;
+                        }
 
                     }
-                }
-                if (allowtoprint)
-                {
-                    Print(operatelist);
-                    allowtoprint = false;
-                }
-                node = head;
-                while (node.getNext() != tail)
-                {
-                    node = node.getNext();
-                    switch (node.getData())
+                    if (allowtoprint)
                     {
-                        case "÷":
-                            if (node.getNext().getData() == "(")
+                        Print(operatelist);
+                        allowtoprint = false;
+                    }
+                    node = head;
+                    //o(n)
+                    while (node.getNext() != tail)
+                    {
+                        node = node.getNext();
+                        switch (node.getData())
+                        {
+                            case "÷":
+                                if (node.getNext().getData() == "(")
+                                {
+                                    operatelist.AddBetweenNeg(node.getprev(), (Convert.ToDouble(node.getprev().getData()) / Convert.ToDouble(node.getNext().getNext().getData())).ToString());
+                                    tail = operatelist.gettail();
+                                }
+                                else
+                                    operatelist.AddBetween(node.getprev(), (Convert.ToDouble(node.getprev().getData()) / Convert.ToDouble(node.getNext().getData())).ToString());
+                                allowtoprint = true;
+                                break;
+                            case "×":
+                                if (node.getNext().getData() == "(")
+                                {
+                                    operatelist.AddBetweenNeg(node.getprev(), (Convert.ToDouble(node.getprev().getData()) * Convert.ToDouble(node.getNext().getNext().getData())).ToString());
+                                    tail = operatelist.gettail();
+                                }
+                                else
+                                    operatelist.AddBetween(node.getprev(), (Convert.ToDouble(node.getprev().getData()) * Convert.ToDouble(node.getNext().getData())).ToString());
+                                allowtoprint = true;
+                                break;
+
+                        }
+                    }
+                    node = head;
+                    //o(n)
+                    while (node.getNext() != tail)
+                    {
+                        node = node.getNext();
+                        try
+                        {
+                            if (Convert.ToDouble(node.getData()) >= 0 && !node.getData().StartsWith("+"))
                             {
-                                operatelist.AddBetweenNeg(node.getprev(), (Convert.ToDouble(node.getprev().getData()) / Convert.ToDouble(node.getNext().getNext().getData())).ToString());
-                                tail = operatelist.gettail();
+                                node.SetData($"+{Convert.ToDouble(node.getData())}");
                             }
-                            else
-                                operatelist.AddBetween(node.getprev(), (Convert.ToDouble(node.getprev().getData()) / Convert.ToDouble(node.getNext().getData())).ToString());
-                            allowtoprint = true;
-                            break;
-                        case "×":
-                            if (node.getNext().getData() == "(")
-                            {
-                                operatelist.AddBetweenNeg(node.getprev(), (Convert.ToDouble(node.getprev().getData()) * Convert.ToDouble(node.getNext().getNext().getData())).ToString());
-                                tail = operatelist.gettail();
-                            }
-                            else
-                                operatelist.AddBetween(node.getprev(), (Convert.ToDouble(node.getprev().getData()) * Convert.ToDouble(node.getNext().getData())).ToString());
-                            allowtoprint = true;
-                            break;
+                        }
+                        catch (Exception)
+                        {
+
+                            continue;
+                        }
 
                     }
-                }
-                if (allowtoprint)
-                {
-                    Print(operatelist);
-                    allowtoprint = false;
-                }
-                node = head.getNext();
-                while (node.getNext() != tail)
-                {
-                    node = node.getNext();
-                    if(Convert.ToDouble(node.getData()) > 0)
+                    if (allowtoprint)
                     {
-                        operatelist.AddBetween(node.getprev(), (Convert.ToDouble(node.getprev().getData()) + Convert.ToDouble(node.getData())).ToString());
-                        allowtoprint = true;
+                        Print(operatelist);
+                        allowtoprint = false;
                     }
-                    else
+                    node = head.getNext();
+                    //o(n)
+                    while (node.getNext() != tail)
                     {
-                        operatelist.AddBetween(node.getprev(), (Convert.ToDouble(node.getprev().getData()) - Convert.ToDouble(node.getData())).ToString());
+                        node = node.getNext();
+                        node.getprev().SetData((Convert.ToDouble(node.getprev().getData()) + Convert.ToDouble(node.getData())).ToString());
+                        operatelist.Deletenode(node);
                         allowtoprint = true;
+
+                    }
+                    if (allowtoprint)
+                    {
+                        Print(operatelist);
+                        allowtoprint = false;
                     }
                 }
-                if (allowtoprint)
+                catch (Exception e)
                 {
-                    Print(operatelist);
-                    allowtoprint = false;
+                    txtStep.Text = "Stntax Error";
+                    isException = true;
+                    break;
                 }
-                int s = 0;
-                s++;
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //bool allsimple = false;
-            //for (int i = 0; i < maxstack ; i++)
-            //{
-            //    doublyLinkedList<string>.node<string> node = operatelist.gettail();
-            //    doublyLinkedList<string>.node<string> head = operatelist.gethead();
-            //    doublyLinkedList<string>.node<string> tail = operatelist.gettail();
-            //    if (!allsimple)
-            //    {
-            //        while (head != operatelist.gethead() && head.getNext() == tail.getprev()) 
-            //        {
-            //            if (head.getNext() == tail.getprev())
-            //            {
-            //                node = head.getprev();
-            //            }
-            //            while (node.getData() != "(")
-            //            {
-            //                node = node.getprev();
-            //            }
-            //            head = node;
-            //            while (node.getData() != ")")
-            //            {
-            //                node = node.getNext();
-            //            }
-            //            tail = node;
-
-            //        }
-            //    }
-            //    if (head == operatelist.gethead())
-            //    {
-            //        while (node.getData() != "(")
-            //        {
-            //            node = node.getprev();
-            //        }
-            //        head = node;
-            //        while (node.getData() != ")")
-            //        {
-            //            node = node.getNext();
-            //        }
-            //        tail = node;
-            //        allsimple = true;
-            //    }
-            //    if(txtStep.Text.EndsWith(operatelist.gethead().getNext().getData()))
-            //    {
-            //        break;
-            //    }
-            //    doublyLinkedList<string>.node<string> node1 = operatelist.gethead();
-            //    doublyLinkedList<string>.node<string> node2 = operatelist.gettail();
-            //    while (node1.getNext() != node2.getprev() && node1.getData() == "(" && node2.getData() == ")")
-            //    {
-            //        node1 = node1.getNext();
-            //        node2 = node2.getprev();
-            //    }
-            //    if (node1 == node2)
-            //    {
-            //        txtStep.Text += "\n=";
-            //        txtStep.Text += node1.getData();
-            //        break;
-            //    }
-            //    node = head;
-            //    while (node.getNext() != tail)
-            //    {
-            //        node = node.getNext();
-            //        switch (node.getData())
-            //        {
-            //            case "^":
-            //                operatelist.AddBetween(node.getprev(), (Math.Pow(Convert.ToDouble(node.getprev().getData()), Convert.ToDouble(node.getNext().getData())).ToString()));
-            //                allowtoprint = true;
-            //                break;
-
-            //        }
-            //    }
-            //    if (allowtoprint)
-            //    {
-            //        Print(operatelist);
-            //        allowtoprint = false;
-            //    }
-            //    if (txtStep.Text.EndsWith(operatelist.gethead().getNext().getData()))
-            //    {
-            //        break;
-            //    }
-            //    node1 = operatelist.gethead();
-            //    node2 = operatelist.gettail();
-            //    while (node1.getNext() != node2.getprev() && node1.getData() == "(" && node2.getData() == ")")
-            //    {
-            //        node1 = node1.getNext();
-            //        node2 = node2.getprev();
-            //    }
-            //    if (node1 == node2)
-            //    {
-            //        txtStep.Text += "\n=";
-            //        txtStep.Text += node1.getData();
-            //        break;
-            //    }
-            //    node = head;
-            //    while (node.getNext() != tail)
-            //    {
-            //        node = node.getNext();
-            //        switch (node.getData())
-            //        {
-            //            case "÷":
-            //                if (node.getNext().getData() == "(")
-            //                {
-            //                    operatelist.AddBetweenNeg(node.getprev(), (Convert.ToDouble(node.getprev().getData()) / Convert.ToDouble(node.getNext().getNext().getData())).ToString());
-            //                    tail = operatelist.gettail();
-            //                }
-            //                else
-            //                    operatelist.AddBetween(node.getprev(), (Convert.ToDouble(node.getprev().getData()) / Convert.ToDouble(node.getNext().getData())).ToString());
-            //                allowtoprint = true;
-            //                break;
-            //            case "×":
-            //                if(node.getNext().getData() == "(")
-            //                {
-            //                    operatelist.AddBetweenNeg(node.getprev(), (Convert.ToDouble(node.getprev().getData()) * Convert.ToDouble(node.getNext().getNext().getData())).ToString());
-            //                    tail = operatelist.gettail();
-            //                }
-            //                else
-            //                     operatelist.AddBetween(node.getprev(), (Convert.ToDouble(node.getprev().getData()) * Convert.ToDouble(node.getNext().getData())).ToString());
-            //                allowtoprint = true;
-            //                break;
-
-            //        }
-            //    }
-            //    if (allowtoprint)
-            //    {
-            //        Print(operatelist);
-            //        allowtoprint = false;
-            //    }
-            //    if (txtStep.Text.EndsWith(operatelist.gethead().getNext().getData()))
-            //    {
-            //        break;
-            //    }
-            //    node1 = operatelist.gethead();
-            //    node2 = operatelist.gettail();
-            //    while (node1.getNext() != node2.getprev() && node1.getData() == "(" && node2.getData() == ")")
-            //    {
-            //        node1 = node1.getNext();
-            //        node2 = node2.getprev();
-            //    }
-            //    if (node1 == node2)
-            //    {
-            //        txtStep.Text += "\n=";
-            //        txtStep.Text += node1.getData();
-            //        break;
-            //    }
-            //    node = head;
-            //    double sub = 0;
-            //    bool neg = false;
-            //    while (node.getNext() != tail)
-            //    {
-            //        node = node.getNext();
-            //        switch (node.getData())
-            //        {
-            //            case "+":
-            //                operatelist.AddBetween(node.getprev(), (Convert.ToDouble(node.getprev().getData()) + Convert.ToDouble(node.getNext().getData())).ToString());
-            //                allowtoprint = true;
-            //                break;
-            //            case "-":
-            //                if (node.getprev().getData() == "(")
-            //                {
-            //                    node.getNext().SetData((Convert.ToDouble(node.getNext().getData()) * (-1)).ToString());
-            //                    operatelist.Deletenode(node);
-            //                    node = head.getNext();
-            //                }
-            //                else
-            //                {
-            //                    operatelist.AddBetween(node.getprev(), (Convert.ToDouble(node.getprev().getData()) - Convert.ToDouble(node.getNext().getData())).ToString());
-            //                }
-            //                neg = true;
-            //                allowtoprint = true;
-            //                break;
-            //        }
-            //    }
-            //    if(head.getNext().getData() != "(")
-            //         sub = Convert.ToDouble(head.getNext().getData());
-            //    node = head.getprev();
-            //    if (txtStep.Text.EndsWith(operatelist.gethead().getNext().getData()))
-            //    {
-            //        break;
-            //    }
-            //    node1 = operatelist.gethead();
-            //    node2 = operatelist.gettail();
-            //    while (node1.getNext() != node2.getprev() && node1.getData() == "(" && node2.getData() == ")")
-            //    {
-            //        node1 = node1.getNext();
-            //        node2 = node2.getprev();
-            //    }
-            //    if (node1 == node2)
-            //    {
-            //        txtStep.Text += "\n=";
-            //        txtStep.Text += node1.getData();
-            //        break;
-            //    }
-            //    if (i != maxstack && sub > 0)
-            //    {
-            //        operatelist.AddBetween(head, head.getNext().getData());
-            //    }
-            //    else if (sub < 0)
-            //    {
-            //        if (allowtoprint)
-            //        {
-            //            Print(operatelist);
-            //            allowtoprint = false;
-
-            //        }
-            //        if (neg)
-            //        {
-            //            continue;
-            //        }
-            //        doublyLinkedList<string>.node<string> temp = node.getprev();
-            //        switch (node.getData())
-            //        {
-            //            case "^":
-            //                operatelist.AddBetweenNeg(node.getprev(), (Math.Pow(Convert.ToDouble(node.getprev().getData()), Convert.ToDouble(node.getNext().getNext().getData())).ToString()));
-            //                allowtoprint = true;
-            //                break;
-            //            case "÷":
-            //                operatelist.AddBetweenNeg(node.getprev(), (Convert.ToDouble(node.getprev().getData()) / Convert.ToDouble(node.getNext().getNext().getData())).ToString());
-            //                allowtoprint = true;
-            //                break;
-            //            case "×":
-            //                operatelist.AddBetweenNeg(node.getprev(), (Convert.ToDouble(node.getprev().getData()) * Convert.ToDouble(node.getNext().getNext().getData())).ToString());
-            //                allowtoprint = true;
-            //                break;
-            //            case "+":
-            //                operatelist.AddBetweenNeg(node.getprev(), (Convert.ToDouble(node.getprev().getData()) + Convert.ToDouble(node.getNext().getNext().getData())).ToString());
-            //                allowtoprint = true;
-            //                break;
-            //            case "-":
-            //                operatelist.AddBetweenNeg(node.getprev(), (Convert.ToDouble(node.getprev().getData()) - Convert.ToDouble(node.getNext().getNext().getData())).ToString());
-            //                allowtoprint = true;
-            //                break;
-            //        }
-            //        if (temp.getprev().getData() == "-" && Convert.ToDouble(temp.getData()) < 0)
-            //        {
-            //            temp.getprev().SetData("+");
-            //            temp.SetData((Convert.ToDouble(temp.getData()) * (-1)).ToString());
-            //        }
-
-            //    }
-            //    if (allowtoprint)
-            //    {
-            //        Print(operatelist);
-            //        allowtoprint = false;
-            //    }
-
-            //}
-            //int s = 0;
-            //s++;
+            if (!isException && txtStep.Text.Last() == ')')
+            {
+                string finalRes = "";
+                node = operatelist.gethead();
+                finalRes += node.getData();
+                //o(n)
+                while (node != operatelist.gettail())
+                {
+                    finalRes += node.getNext().getData();
+                    node = node.getNext();
+                }
+                DataTable dt = new DataTable();
+                var v = dt.Compute(finalRes, "");
+                txtStep.Text += $"\n={v}";
+            }
+            
         }
 
         private void btnequal_click(object sender, EventArgs e)
         {
-            lblShowOp.Text = "";
-            for (int i = 0; i < 2; i++)
-                switch (txtDisplay.Text[txtDisplay.Text.Length - 1])
-                {
-                    case '+':
-                    case '-':
-                    case '×':
-                    case '÷':
-                    case '.':
-                        txtDisplay.Text = txtDisplay.Text.Remove(txtDisplay.Text.Length - 1, 1);
-                        break;
-                    case '^':
-                        txtDisplay.Text = "Syntax Error";
-                        break;
-                }
+            switch (txtDisplay.Text[txtDisplay.Text.Length - 1])
+            {
+                case '+':
+                case '-':
+                case '×':
+                case '÷':
+                case '.':
+                case '^':
+                    txtDisplay.Text = "Syntax Error";
+                    break;
+            }
             if (!Stack.isEmpty())
             {
                 int sizeofstack = Stack.size();
@@ -716,48 +537,137 @@ namespace Calculator
             txtStep.Text = txtDisplay.Text;
             txtDisplay.Text = "0";
             isnumber = false;
-            // if(txtDisplay.Text != "0" && txtDisplay.Text != "." && txtDisplay.Text != "-")
-            StepByStepSoution();
+            string sqrt = "";
+            string result = txtStep.Text;
+            //o(n)
+            if (txtStep.Text.Contains("√"))
+            {
+                for (int i = 0; i < txtStep.Text.Length; i++)
+                {
+                    if (txtStep.Text[i] == '√')
+                    {
+                        int j;
+                        for (j = i + 1; (j < txtStep.Text.Length) && (char.IsDigit(txtStep.Text[j]) || txtStep.Text[j] == '.'); j++)
+                        {
+                            sqrt += txtStep.Text[j];
+                            i++;
+                        }
+                        try
+                        {
+                            string temp = Math.Sqrt(Convert.ToDouble(sqrt)).ToString();
+                            result = result.Replace($"√{sqrt}", temp);
+                            txtStep.Text += $"\n={result}";
+                        }
+                        catch (Exception)
+                        {
+                            txtStep.Text = "Syntax Error";
+                            break;
+                        }
+                        
+                        
+                    }
+                }
+            }
+            int lengthofStepAfterSqrt = result.Length;
+
+
+            string a = txtStep.Text;
+            //o(n/2)
+            while (Stack.size() > 0)
+            {
+                Stack.pop();
+            }
+            //o(n)
+            if (a.Contains("Sin") || a.Contains("Cos") || a.Contains("Tan") || a.Contains("Log"))
+                result = calc_SinCosTanLog(lengthofStepAfterSqrt, result);
+
+            //o(n^2)
+            StepByStepSoution("(" + result + ")");
+
+            treeString = "(" + result + ")";
+            treeString = treeString.Replace('×', '*');
+            treeString = treeString.Replace('÷', '/');
+        }
+
+        string calc_SinCosTanLog(int length, string stepLastLine)
+        {
+            string result = stepLastLine;
+            for (int i = 0; i < length - 3; i++)
+            {
+                if (result[i] == 'S')
+                {
+                    int j;
+                    string num = "";
+                    for (j = i + 4; stepLastLine[j] != ')'; j++)
+                    {
+                        num += stepLastLine[j];
+                        i++;
+                    }
+                    string temp = Math.Sin(Convert.ToDouble(num) * Math.PI / 180).ToString();
+                    result = result.Replace($"Sin({num})", $"({temp})");
+                }
+                if (result[i] == 'C')
+                {
+                    int j;
+                    string num = "";
+                    for (j = i + 4; stepLastLine[j] != ')'; j++)
+                    {
+                        num += stepLastLine[j];
+                        i++;
+                    }
+                    string temp = Math.Cos(Convert.ToDouble(num) * Math.PI / 180).ToString();
+                    result = result.Replace($"Cos({num})", $"({temp})");
+                }
+                if (result[i] == 'T')
+                {
+                    int j;
+                    string num = "";
+                    for (j = i + 4; stepLastLine[j] != ')'; j++)
+                    {
+                        num += stepLastLine[j];
+                        i++;
+                    }
+                    string temp = Math.Tan(Convert.ToDouble(num) * Math.PI / 180).ToString();
+                    result = result.Replace($"Tan({num})", $"({temp})");
+                }
+                if (result[i] == 'L')
+                {
+                    int j;
+                    string num = "";
+                    for (j = i + 4; stepLastLine[j] != ')'; j++)
+                    {
+                        num += stepLastLine[j];
+                        i++;
+                    }
+                    string temp = Math.Log10(Convert.ToDouble(num) * Math.PI / 180).ToString();
+                    result = result.Replace($"Log({num})", $"({temp})");
+                }
+            }
+
+            txtStep.Text += $"\n={result}";
+            return result;
         }
 
         private void button19_Click(object sender, EventArgs e)
         {
-            txtDisplay.Text = "3.141592653589976323";
+            if (txtDisplay.Text == "0")
+                txtDisplay.Text = "3.14159";
+            else if (!isnumber)
+                txtDisplay.Text += "3.14159";
+
+            arithmeticafterdot = true;
         }
 
-        private void button21_Click(object sender, EventArgs e)
-        {
-            double ilog = double.Parse(txtDisplay.Text);
-            lblShowOp.Text = Convert.ToString("log" + "(" + txtDisplay.Text + ")");
-            ilog = Math.Log10(ilog);
-            txtDisplay.Text = Convert.ToString(ilog);
-        }
 
         private void button34_Click(object sender, EventArgs e)
         {
-            double sqrt = double.Parse(txtDisplay.Text);
-            lblShowOp.Text = Convert.ToString("√" + "(" + txtDisplay.Text + ")");
-            sqrt = Math.Sqrt(sqrt);
-            txtStep.Text = Convert.ToString(sqrt);
-            txtDisplay.Text = "";
-        }
+            if (txtDisplay.Text == "0")
+                txtDisplay.Text = "√";
+            else if (!isnumber)
+                txtDisplay.Text += "√";
 
-        private void button22_Click(object sender, EventArgs e)
-        {
-            double sin = double.Parse(txtDisplay.Text);
-            lblShowOp.Text = Convert.ToString("Sin" + "(" + txtDisplay.Text + ")");
-            sin = Math.Sin(sin);
-            txtDisplay.Text = "";
-            txtStep.Text = Convert.ToString(sin);
-        }
-
-        private void button23_Click(object sender, EventArgs e)
-        {
-            double Cos = double.Parse(txtDisplay.Text);
-            lblShowOp.Text = Convert.ToString("Cos" + "(" + txtDisplay.Text + ")");
-            Cos = Math.Cos(Cos);
-            txtDisplay.Text = "";
-            txtStep.Text = Convert.ToString(Cos);
+            arithmeticafterdot = true;
+            isnumber = true;
         }
 
         private void rbCeltoFah_CheckedChanged(object sender, EventArgs e)
@@ -836,13 +746,18 @@ namespace Calculator
             isnumber = true;
         }
 
-        private void button25_Click(object sender, EventArgs e)
+
+        private void TanLogSinCos_click(object sender, EventArgs e)
         {
-            double Tan = double.Parse(txtDisplay.Text);
-            lblShowOp.Text = Convert.ToString("Tan" + "(" + txtDisplay.Text + ")");
-            Tan = Math.Tan(Tan);
-            txtDisplay.Text = "";
-            txtStep.Text = Convert.ToString(Tan);
+            Button btn = (Button)sender;
+            if (txtDisplay.Text == "0")
+                txtDisplay.Text = $"{btn.Text}(";
+            else if (!isnumber)
+                txtDisplay.Text += $"{btn.Text}(";
+
+            Stack.push('(');
+            arithmeticafterdot = true;
+            isnumber = true;
         }
 
         private void button36_Click(object sender, EventArgs e)

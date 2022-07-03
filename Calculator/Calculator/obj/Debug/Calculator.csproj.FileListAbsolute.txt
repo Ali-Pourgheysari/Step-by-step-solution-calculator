@@ -8,3 +8,46 @@ C:\Users\SABA\Desktop\Term 3\Programming\phase3-gheysar007\Calculator\Calculator
 C:\Users\SABA\Desktop\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
 C:\Users\SABA\Desktop\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\obj\Debug\Calculator.exe
 C:\Users\SABA\Desktop\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\obj\Debug\Calculator.pdb
+C:\Users\SABA\Desktop\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\bin\Debug\Microsoft.Msagl.dll
+C:\Users\SABA\Desktop\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\bin\Debug\Microsoft.Msagl.Drawing.dll
+C:\Users\SABA\Desktop\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\bin\Debug\Microsoft.Msagl.GraphViewerGdi.dll
+C:\Users\SABA\Desktop\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\bin\Debug\Microsoft.Msagl.xml
+C:\Users\SABA\Desktop\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\bin\Debug\Microsoft.Msagl.Drawing.xml
+C:\Users\SABA\Desktop\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\bin\Debug\Microsoft.Msagl.GraphViewerGdi.xml
+C:\Users\SABA\Desktop\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\obj\Debug\Calculator.csproj.CopyComplete
+H:\Me\uny\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\bin\Debug\Calculator.exe.config
+H:\Me\uny\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\bin\Debug\Calculator.exe
+H:\Me\uny\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\bin\Debug\Calculator.pdb
+H:\Me\uny\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\bin\Debug\Microsoft.Msagl.dll
+H:\Me\uny\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\bin\Debug\Microsoft.Msagl.Drawing.dll
+H:\Me\uny\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\bin\Debug\Microsoft.Msagl.GraphViewerGdi.dll
+H:\Me\uny\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\bin\Debug\Microsoft.Msagl.xml
+H:\Me\uny\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\bin\Debug\Microsoft.Msagl.Drawing.xml
+H:\Me\uny\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\bin\Debug\Microsoft.Msagl.GraphViewerGdi.xml
+H:\Me\uny\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\obj\Debug\Calculator.csproj.AssemblyReference.cache
+H:\Me\uny\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\obj\Debug\Calculator.csproj.SuggestedBindingRedirects.cache
+H:\Me\uny\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\obj\Debug\Calculator.Form1.resources
+H:\Me\uny\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\obj\Debug\Calculator.Properties.Resources.resources
+H:\Me\uny\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\obj\Debug\Calculator.csproj.GenerateResource.cache
+H:\Me\uny\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+H:\Me\uny\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\obj\Debug\Calculator.csproj.CopyComplete
+H:\Me\uny\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\obj\Debug\Calculator.exe
+H:\Me\uny\Term 3\Programming\phase3-gheysar007\Calculator\Calculator\obj\Debug\Calculator.pdb
+F:\GitHub\Step-by-step-solution-calculator\Calculator\Calculator\bin\Debug\Calculator.exe.config
+F:\GitHub\Step-by-step-solution-calculator\Calculator\Calculator\bin\Debug\Calculator.exe
+F:\GitHub\Step-by-step-solution-calculator\Calculator\Calculator\bin\Debug\Calculator.pdb
+F:\GitHub\Step-by-step-solution-calculator\Calculator\Calculator\bin\Debug\Microsoft.Msagl.dll
+F:\GitHub\Step-by-step-solution-calculator\Calculator\Calculator\bin\Debug\Microsoft.Msagl.Drawing.dll
+F:\GitHub\Step-by-step-solution-calculator\Calculator\Calculator\bin\Debug\Microsoft.Msagl.GraphViewerGdi.dll
+F:\GitHub\Step-by-step-solution-calculator\Calculator\Calculator\bin\Debug\Microsoft.Msagl.xml
+F:\GitHub\Step-by-step-solution-calculator\Calculator\Calculator\bin\Debug\Microsoft.Msagl.Drawing.xml
+F:\GitHub\Step-by-step-solution-calculator\Calculator\Calculator\bin\Debug\Microsoft.Msagl.GraphViewerGdi.xml
+F:\GitHub\Step-by-step-solution-calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.AssemblyReference.cache
+F:\GitHub\Step-by-step-solution-calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.SuggestedBindingRedirects.cache
+F:\GitHub\Step-by-step-solution-calculator\Calculator\Calculator\obj\Debug\Calculator.Form1.resources
+F:\GitHub\Step-by-step-solution-calculator\Calculator\Calculator\obj\Debug\Calculator.Properties.Resources.resources
+F:\GitHub\Step-by-step-solution-calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.GenerateResource.cache
+F:\GitHub\Step-by-step-solution-calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+F:\GitHub\Step-by-step-solution-calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.CopyComplete
+F:\GitHub\Step-by-step-solution-calculator\Calculator\Calculator\obj\Debug\Calculator.exe
+F:\GitHub\Step-by-step-solution-calculator\Calculator\Calculator\obj\Debug\Calculator.pdb
