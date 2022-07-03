@@ -19,12 +19,13 @@ when you start the application this mode is selected by default. it can calculat
 
 ## Scientific mode
 when you click on the scientific mode button it will show the scientific mode. it can calculate operations that include:
-* square root
-* square
+* Square root
+* PI
+* Percentage
 * Sinus
 * Cosinus
 * Tangent
-* logarithm
+* Logarithm
 * power
 * parentheses
 
